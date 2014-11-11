@@ -1,3 +1,6 @@
+require 'serverspec'
+set :backend, :exec
+
 describe 'apache' do
   it "is awesome" do
     expect(true).to eq true
@@ -11,12 +14,16 @@ describe 'apache' do
     expect(service 'httpd').to be_running
   end
 
+  it "is enabled" do
+    expect(service 'httpd').to be_enabled
+  end
+
   it "is listening on port 80" do
-    expect(port 80).to be_listening
+    expect(port(80)).to be_listening
   end
 
   it "displays a custom home page" do
-    expect(command("curl localhost").stdout).to match /hello/
+    expect(command("curl localhost").stdout).to match /hello/i
   end
 end
 
